@@ -1,0 +1,2 @@
+ npm i express dotenv cors  @clerk/express express @clerk/backend @imagekit/nodejs @sentry/node @sentry/profiling-node drizzle-orm pg standardwebhooks stream-chat zod 
+
