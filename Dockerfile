@@ -12,6 +12,7 @@ ENV VITE_API_URL=
 ARG VITE_CLERK_PUBLISHABLE_KEY
 ENV VITE_CLERK_PUBLISHABLE_KEY=$VITE_CLERK_PUBLISHABLE_KEY
 
+RUN npm run build
 
 
 
@@ -22,6 +23,7 @@ RUN npm install --no-audit --no-fund
 
 COPY backend/ ./
 
+RUN npm run build
 
 
 
