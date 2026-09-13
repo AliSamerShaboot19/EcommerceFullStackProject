@@ -4,7 +4,6 @@ import {
   integer,
   timestamp,
   uuid,
-  boolean,
   jsonb
 } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
