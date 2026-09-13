@@ -2,3 +2,5 @@
 
 clerk imagekit stream sentry drizzle-orm 
 polar
+
+vision-agents repo
