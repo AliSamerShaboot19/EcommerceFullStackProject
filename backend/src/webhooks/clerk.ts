@@ -8,10 +8,9 @@ import { getEnv } from '../lib/env'
 
 export async function clerkWebhookHandler (req: Request, res: Response) {
   try {
-    const rawBody =
-      req.body instanceof Buffer ? req.body.toString('utf8') : req.body
     const env = getEnv()
-    const evt = await verifyWebhook(rawBody, {
+
+    const evt = await verifyWebhook(req, {
       signingSecret: env.CLERK_WEBHOOK_SECRET
     })
 
@@ -45,7 +44,7 @@ export async function clerkWebhookHandler (req: Request, res: Response) {
       }
     }
 
-    res.json({ ok: true })
+    res.status(200).send('Webhook processed successfully')
   } catch (error) {
     console.error('Clerk webhook error:', error)
     res.status(400).json({ error: 'Invalid webhook' })
