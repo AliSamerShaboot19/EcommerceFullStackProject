@@ -1,13 +1,19 @@
 import type { Request, Response } from 'express'
-import { verifyWebhook } from '@clerk/express/webhooks' // التحديث هنا 👈
+import { verifyWebhook } from '@clerk/express/webhooks'
 import { parseRole } from '../lib/roles'
 import { db } from '../db/index'
 import { users } from '../db/schema'
 import { eq } from 'drizzle-orm'
+import { getEnv } from '../lib/env'
 
 export async function clerkWebhookHandler (req: Request, res: Response) {
   try {
-    const evt = await verifyWebhook(req)
+    const rawBody =
+      req.body instanceof Buffer ? req.body.toString('utf8') : req.body
+    const env = getEnv()
+    const evt = await verifyWebhook(rawBody, {
+      signingSecret: env.CLERK_WEBHOOK_SECRET
+    })
 
     if (evt.type === 'user.created' || evt.type === 'user.updated') {
       const user = evt.data
