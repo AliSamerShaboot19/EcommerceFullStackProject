@@ -4,7 +4,8 @@ import {
   integer,
   timestamp,
   uuid,
-  jsonb
+  jsonb,
+  boolean
 } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
@@ -41,6 +42,7 @@ export const products = pgTable('products', {
   currency: text('currency').notNull().default('USD'),
   imageUrl: text('image_url').notNull(),
   imageKitField: text('image_kit_field_id'),
+  active: boolean("active").notNull().default(true),
   createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),
