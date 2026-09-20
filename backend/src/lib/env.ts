@@ -1,34 +1,5 @@
 import { z } from 'zod'
-
-// coerce is to convert the string to a number if it is a string
-
-const envSchema = z.object({
-  NODE_ENV: z
-    .enum(['development', 'production', 'test'])
-    .default('development'),
-  PORT: z.coerce.number().default(3001),
-  DATABASE_URL: z.string().min(1),
-
-  CLERK_PUBLISHABLE_KEY: z.string().min(1),
-  CLERK_SECRET_KEY: z.string().min(1),
-  CLERK_WEBHOOK_SECRET: z.string().min(1),
-
-  FRONTEND_URL: z.string().url(),
-
-  POLAR_ACCESS_TOKEN: z.string().optional(),
-  POLAR_WEBHOOK_SECRET: z.string().optional(),
-  POLAR_API_BASE: z.string().url().default('https://api.polar.sh'),
-  POLAR_CHEKOUT_PRODUCT_ID: z.string(),
-
-  STREAM_API_KEY: z.string().min(1),
-  STREAM_API_SECRET: z.string().min(1),
-
-  IMAGEKIT_PUBLIC_KEY: z.string().min(1),
-  IMAGEKIT_PRIVATE_KEY: z.string().min(1),
-  IMAGEKIT_URL_ENDPOINT: z.string().url(),
-
-  SENTRY_DSN: z.string().url().optional()
-})
+import { envSchema } from './types'
 
 export type ENV = z.infer<typeof envSchema>
 
