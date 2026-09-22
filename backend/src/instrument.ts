@@ -13,5 +13,6 @@ if (dsn) {
     tracesSampleRate: 1.0,
     profileLifecycle: 'trace',
     sendDefaultPii: true,
+    debug:true
   })
 }
