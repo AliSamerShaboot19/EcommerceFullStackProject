@@ -56,6 +56,10 @@ app.use((_err: unknown, _req: Request, res: Response, _next: NextFunction) => {
   })
 })
 
+app.get("/debug-sentry", function mainHandler(req, res) {
+  throw new Error("My first Sentry error!");
+});
+
 app.listen(env.PORT, () => {
   console.log('Server is running on port : ', env.PORT)
   if (env.NODE_ENV === 'production') job.start()
