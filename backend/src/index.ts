@@ -49,9 +49,11 @@ app.use('/api/products', productRouter)
 app.use('/api/stream', streamRouter)
 app.use('/api/checkout', checkoutRouter)
 
-configureSpaRouting(app)
 
 Sentry.setupExpressErrorHandler(app)
+
+configureSpaRouting(app)
+
 app.use((_err: unknown, _req: Request, res: Response, _next: NextFunction) => {
   const sentryId = (res as express.Response & { sentry?: string }).sentry
 
