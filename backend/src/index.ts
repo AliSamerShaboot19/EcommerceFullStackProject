@@ -39,6 +39,11 @@ app.get('/health', (req, res) => {
   res.json({ ok: true })
 })
 
+
+app.get("/api/debug-sentry", function mainHandler(req, res) {
+  throw new Error("My first Sentry error!");
+});
+
 app.use('/api/me', meRouter)
 app.use('/api/products', productRouter)
 app.use('/api/stream', streamRouter)
@@ -56,9 +61,6 @@ app.use((_err: unknown, _req: Request, res: Response, _next: NextFunction) => {
   })
 })
 
-app.get("/api/debug-sentry", function mainHandler(req, res) {
-  throw new Error("My first Sentry error!");
-});
 
 app.listen(env.PORT, () => {
   console.log('Server is running on port : ', env.PORT)
