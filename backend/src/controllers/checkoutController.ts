@@ -92,6 +92,9 @@ export async function createCheckout (
       })
       .returning()
 
+    // session id (db)
+
+
     const successUrl = `${env.FRONTEND_URL}/checkout/return?checkout_id={CHECKOUT_ID}`
     const returnUrl = `${env.FRONTEND_URL}/cart`
 
@@ -109,15 +112,18 @@ export async function createCheckout (
       success_url: successUrl,
       return_url: returnUrl,
       external_customer_id: userId,
-      metadata: { checkout_session_id: session.id }
+      metadata: { checkout_session_id: session.id } // session id from db  to polar 
     })
+
+    // reteurn url and checkout id
 
     await db
       .update(checkoutSessions)
       .set({ polarCheckoutId: checkout.id })
       .where(eq(checkoutSessions.id, session.id))
 
-    res.json({ checkoutUrl: checkout.url })
+    res.json({ checkoutUrl: checkout.url }) // retrun url to frontend to payment page
+
   } catch (error) {
     next(error)
   }

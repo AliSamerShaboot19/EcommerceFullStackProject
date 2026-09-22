@@ -1,8 +1,6 @@
 import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
-import path from 'path'
-import fs from 'fs'
 
 import { clerkMiddleware } from '@clerk/express'
 import { clerkWebhookHandler } from './webhooks/clerk'
@@ -13,6 +11,8 @@ import meRouter from './routes/meRouter'
 import productRouter from './routes/productRouter'
 import streamRouter from './routes/streamRouter'
 import checkoutRouter from './routes/checkoutRouter'
+import { configureSpaRouting } from './routes/spaRouter'
+import { polarWebhookHandler } from './webhooks/polar'
 
 const app = express()
 const env = getEnv()
@@ -40,26 +40,7 @@ app.use('/api/products', productRouter)
 app.use('/api/stream', streamRouter)
 app.use('/api/checkout', checkoutRouter)
 
-const publicDir = path.join(process.cwd(), 'public')
-if (fs.existsSync(publicDir)) {
-  app.use(express.static(publicDir))
-
-  app.get('/*any', (req, res, next) => {
-    if (req.method !== 'GET' && req.method !== 'HEAD') {
-      return next()
-    }
-
-    if (req.path.startsWith('/api') || req.path.startsWith('/webhooks')) {
-      return next()
-    }
-
-    res.sendFile(path.join(publicDir, 'index.html'), err => {
-      if (err) {
-        next(err)
-      }
-    })
-  })
-}
+configureSpaRouting(app)
 
 app.listen(env.PORT, () => {
   console.log('Server is running on port : ', env.PORT)
