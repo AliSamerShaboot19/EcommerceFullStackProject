@@ -40,7 +40,7 @@ export const products = pgTable('products', {
   description: text('description').notNull(),
   price: integer('price').notNull(),
   currency: text('currency').notNull().default('USD'),
-  imageUrl: text('image_url').notNull(),
+  imageUrl: text('image_url'),
   imageKitField: text('image_kit_field_id'),
   active: boolean("active").notNull().default(true),
   createdAt: timestamp('created_at', { withTimezone: true })

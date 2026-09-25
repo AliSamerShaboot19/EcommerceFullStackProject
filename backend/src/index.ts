@@ -13,6 +13,7 @@ import meRouter from './routes/meRouter'
 import productRouter from './routes/productRouter'
 import streamRouter from './routes/streamRouter'
 import checkoutRouter from './routes/checkoutRouter'
+import adminRoute from './routes/adminRoute'
 import { configureSpaRouting } from './routes/spaRouter'
 import { polarWebhookHandler } from './webhooks/polar'
 import { sentryClerkUserMiddleware } from './middleware/sentryClerkUser'
@@ -39,16 +40,15 @@ app.get('/health', (req, res) => {
   res.json({ ok: true })
 })
 
-
-app.get("/api/debug-sentry", function mainHandler(req, res) {
-  throw new Error("My first Sentry error!");
-});
+app.get('/api/debug-sentry', function mainHandler (req, res) {
+  throw new Error('My first Sentry error!')
+})
 
 app.use('/api/me', meRouter)
 app.use('/api/products', productRouter)
 app.use('/api/stream', streamRouter)
 app.use('/api/checkout', checkoutRouter)
-
+app.use('/api/admin', adminRoute)
 
 Sentry.setupExpressErrorHandler(app)
 
@@ -62,7 +62,6 @@ app.use((_err: unknown, _req: Request, res: Response, _next: NextFunction) => {
     ...(sentryId !== undefined && { sentryId })
   })
 })
-
 
 app.listen(env.PORT, () => {
   console.log('Server is running on port : ', env.PORT)
