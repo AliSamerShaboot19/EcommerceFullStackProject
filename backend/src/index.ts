@@ -14,6 +14,8 @@ import productRouter from './routes/productRouter'
 import streamRouter from './routes/streamRouter'
 import checkoutRouter from './routes/checkoutRouter'
 import adminRoute from './routes/adminRoute'
+import orderRoute from './routes/orderRoute'
+
 import { configureSpaRouting } from './routes/spaRouter'
 import { polarWebhookHandler } from './webhooks/polar'
 import { sentryClerkUserMiddleware } from './middleware/sentryClerkUser'
@@ -49,6 +51,7 @@ app.use('/api/products', productRouter)
 app.use('/api/stream', streamRouter)
 app.use('/api/checkout', checkoutRouter)
 app.use('/api/admin', adminRoute)
+app.use('/api/orders', orderRoute)
 
 Sentry.setupExpressErrorHandler(app)
 
