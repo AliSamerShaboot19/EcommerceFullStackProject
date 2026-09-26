@@ -166,26 +166,22 @@ export async function deleteAdminProduct (
 ) {
   try {
     const id = req.params.id as string
-    const [exciting] = await db
-      .select()
-      .from(products)
-      .where(eq(products.id, id))
-    if (!exciting) {
-      res.status(404).json({ error: 'Not found.' })
-      return
-    }
 
-    const [countRow] = await db
-      .select({ c: count() })
-      .from(orderItems)
-      .where(eq(orderItems.productId, id))
+    const [[exciting], [countRow]] = await Promise.all([
+      db.select().from(products).where(eq(products.id, id)),
+      db
+        .select({ c: count() })
+        .from(orderItems)
+        .where(eq(orderItems.productId, id))
+    ])
+
+    if (!exciting) return res.status(404).json({ error: 'Not found.' })
 
     if (Number(countRow?.c ?? 0) > 0) {
-      res.status(409).json({
+      return res.status(409).json({
         error:
           'This product in one or more orders and cannot be deleted. Deactivate it instead.'
       })
-      return
     }
 
     await deleteImageKitAssest(env, exciting.imageKitField)
@@ -196,3 +192,4 @@ export async function deleteAdminProduct (
     next(error)
   }
 }
+
