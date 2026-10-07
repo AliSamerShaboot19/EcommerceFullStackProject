@@ -4,7 +4,7 @@ import { getCategories, getProductBySlug, listProducts } from '../controllers/pr
 const router = Router()
 
 router.get("/",listProducts)
-router.get("/categries",getCategories)
+router.get("/categories",getCategories)
 router.get("/:slug",getProductBySlug)
 
 

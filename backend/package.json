@@ -6,7 +6,8 @@
     "dev": "tsx watch --import ./src/instrument.ts ./src/index.ts",
     "build": "tsc",
     "start": "node --import ./src/instrument.ts ./dist/index.js",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "db:seed": "tsx scripts/seed.ts"
   },
   "keywords": [],
   "author": "",
