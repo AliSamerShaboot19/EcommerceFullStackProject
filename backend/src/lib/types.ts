@@ -3,7 +3,7 @@ export const cartSchema = z.object({
   items: z
     .array(
       z.object({
-        productId: z.string().uuid(),
+        id: z.string(),
         quantity: z.number().int().positive()
       })
     )
@@ -25,7 +25,7 @@ export const envSchema = z.object({
 
   POLAR_ACCESS_TOKEN: z.string().optional(),
   POLAR_WEBHOOK_SECRET: z.string().optional(),
-  POLAR_API_BASE: z.string().url().default('https://api.polar.sh'),
+  POLAR_API_BASE: z.string().url(),
   POLAR_CHEKOUT_PRODUCT_ID: z.string().uuid(),
 
   STREAM_API_KEY: z.string().min(1),

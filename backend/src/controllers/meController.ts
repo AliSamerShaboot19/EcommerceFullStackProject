@@ -10,7 +10,14 @@ export async function getMe (req: Request, res: Response, next: NextFunction) {
     }
     const user = await getLocalUser(userId)
     res.json({ user })
-  } catch (error) {
-    next(error)
+  } catch (e) {
+    if (e instanceof Error && 'cause' in e) {
+      console.error('=== REAL DATABASE ERROR ===')
+      console.error('Query:', e.message)
+      console.error('Cause:', (e as any).cause)
+      console.error('SQLSTATE Code:', (e.cause as any)?.code)
+    }
+
+    next(e)
   }
 }

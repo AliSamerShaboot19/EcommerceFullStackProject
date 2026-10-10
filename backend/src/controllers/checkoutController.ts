@@ -31,6 +31,8 @@ export async function createCheckout (
       return
     }
 
+    console.log(parseData)
+
     if (!env.POLAR_ACCESS_TOKEN) {
       res.status(503).json({ error: 'Payments are not configured.' })
       return
@@ -42,7 +44,7 @@ export async function createCheckout (
       return
     }
 
-    const uniqueIds = [...new Set(parseData.data.items.map(i => i.productId))]
+    const uniqueIds = [...new Set(parseData.data.items.map(i => i.id))]
 
     const prodRows = await db
       .select()
@@ -59,7 +61,9 @@ export async function createCheckout (
     const lines: CheckoutLine[] = []
 
     for (const line of parseData.data.items) {
-      const p = byId.get(line.productId)
+      const p = byId.get(line.id)
+
+      console.log(p)
 
       if (!p) {
         res.status(400).json({ error: 'Product not found in store.' })
