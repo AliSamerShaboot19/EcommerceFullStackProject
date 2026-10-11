@@ -38,7 +38,12 @@ export async function polarWebhookHandler (req: Request, res: Response) {
 
     const event = JSON.parse(raw.toString('utf-8'))
 
-    if (event.type === 'order.paid' && event.data) {
+    // 💡 الحل هنا: استقبال حدث الدفع المدفوع OR حدث إنشاء الطلب المجاني (عندما تكون القيمة الصافية المستلمة 0)
+    const isPaidOrder = event.type === 'order.paid'
+    const isFreeOrder =
+      event.type === 'order.created' && event.data?.amount === 0
+
+    if ((isPaidOrder || isFreeOrder) && event.data) {
       const data = event.data
       const polarOrderId = data.id
       const checkoutId = data.checkout_id
@@ -75,7 +80,7 @@ export async function polarWebhookHandler (req: Request, res: Response) {
           .insert(orders)
           .values({
             userId: session.userId,
-            status: 'paid',
+            status: 'paid', // يتم تعيينه paid مباشرة لأن العملية اكتملت بنجاح (سواء مجانية أو مدفوعة)
             totalCents: session.totalCents,
             polarCheckoutId: checkoutId ?? session.polarCheckoutId ?? null,
             polarOrderId: polarOrderId ?? null
@@ -104,7 +109,7 @@ export async function polarWebhookHandler (req: Request, res: Response) {
         return res.status(500).json({ error: 'Checkout fulfillment failed.' })
       }
 
-      return res.json({ ok: true, duplicate: true })
+      return res.json({ ok: true })
     }
 
     return res.json({ ok: true })

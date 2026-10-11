@@ -79,7 +79,7 @@ export async function createCheckout (
       })
     }
 
-    if (totalCents < 10) {
+    if (totalCents !== 0 && totalCents < 10) {
       res.status(400).json({
         error: 'Total below Polar minimum (e.g. USD requires at least 10 cents)'
       })
