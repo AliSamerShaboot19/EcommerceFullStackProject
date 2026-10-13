@@ -6,8 +6,11 @@ import { eq, or } from 'drizzle-orm'
 import { Webhook } from 'standardwebhooks'
 
 const getHeader = (req: Request, name: string): string | undefined => {
-  const val = req.headers[name]
-  return Array.isArray(val) ? val[0] : val
+  const headerValue = req.headers[name]
+  if (Array.isArray(headerValue)) {
+    return headerValue[0]
+  }
+  return headerValue as string | undefined
 }
 
 export async function polarWebhookHandler (req: Request, res: Response) {
@@ -28,7 +31,8 @@ export async function polarWebhookHandler (req: Request, res: Response) {
 
     const raw =
       req.body instanceof Buffer ? req.body : Buffer.from(String(req.body))
-     new Webhook(env.POLAR_WEBHOOK_SECRET).verify(raw, {
+
+    new Webhook(env.POLAR_WEBHOOK_SECRET).verify(raw, {
       'webhook-id': id,
       'webhook-timestamp': ts,
       'webhook-signature': sig
@@ -36,7 +40,6 @@ export async function polarWebhookHandler (req: Request, res: Response) {
 
     const event = JSON.parse(raw.toString('utf-8'))
 
-  
     const isPaidOrder = event.type === 'order.paid'
     const isFreeOrder =
       event.type === 'order.created' && event.data?.amount === 0
@@ -78,7 +81,7 @@ export async function polarWebhookHandler (req: Request, res: Response) {
           .insert(orders)
           .values({
             userId: session.userId,
-            status: 'paid', // يتم تعيينه paid مباشرة لأن العملية اكتملت بنجاح (سواء مجانية أو مدفوعة)
+            status: 'paid',
             totalCents: session.totalCents,
             polarCheckoutId: checkoutId ?? session.polarCheckoutId ?? null,
             polarOrderId: polarOrderId ?? null
@@ -112,7 +115,7 @@ export async function polarWebhookHandler (req: Request, res: Response) {
 
     return res.json({ ok: true })
   } catch (error) {
-    console.error('Polar webhook error', error)
+    console.error('Polar webhook handling error:', error)
     return res.status(400).json({ error: 'Invalid webhook' })
   }
 }
