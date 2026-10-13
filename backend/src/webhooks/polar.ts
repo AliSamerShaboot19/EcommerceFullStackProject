@@ -6,11 +6,11 @@ import { eq, or } from 'drizzle-orm'
 import { Webhook } from 'standardwebhooks'
 
 const getHeader = (req: Request, name: string): string | undefined => {
-  const headerValue = req.headers[name]
-  if (Array.isArray(headerValue)) {
-    return headerValue[0]
+  const val = req.headers[name]
+  if (Array.isArray(val)) {
+    return val[0]
   }
-  return headerValue as string | undefined
+  return val as string | undefined
 }
 
 export async function polarWebhookHandler (req: Request, res: Response) {
@@ -21,11 +21,16 @@ export async function polarWebhookHandler (req: Request, res: Response) {
   }
 
   try {
-    const id = getHeader(req, 'webhooks-id')
-    const ts = getHeader(req, 'webhooks-timestamp')
-    const sig = getHeader(req, 'webhooks-signature')
+    const id = getHeader(req, 'webhook-id')
+    const ts = getHeader(req, 'webhook-timestamp')
+    const sig = getHeader(req, 'webhook-signature')
 
     if (!id || !ts || !sig) {
+      console.error('Missing Webhook Headers from Polar. Received:', {
+        id,
+        ts,
+        sig
+      })
       return res.status(400).json({ error: 'Missing webhook headers.' })
     }
 
@@ -115,7 +120,7 @@ export async function polarWebhookHandler (req: Request, res: Response) {
 
     return res.json({ ok: true })
   } catch (error) {
-    console.error('Polar webhook handling error:', error)
+    console.error('Polar webhook verification error details:', error)
     return res.status(400).json({ error: 'Invalid webhook' })
   }
 }
