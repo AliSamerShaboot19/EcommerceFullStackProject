@@ -28,9 +28,7 @@ export async function polarWebhookHandler (req: Request, res: Response) {
 
     const raw =
       req.body instanceof Buffer ? req.body : Buffer.from(String(req.body))
-    new Webhook(
-      Buffer.from(env.POLAR_WEBHOOK_SECRET, 'utf-8').toString('base64')
-    ).verify(raw, {
+     new Webhook(env.POLAR_WEBHOOK_SECRET).verify(raw, {
       'webhook-id': id,
       'webhook-timestamp': ts,
       'webhook-signature': sig
@@ -38,7 +36,7 @@ export async function polarWebhookHandler (req: Request, res: Response) {
 
     const event = JSON.parse(raw.toString('utf-8'))
 
-    // 💡 الحل هنا: استقبال حدث الدفع المدفوع OR حدث إنشاء الطلب المجاني (عندما تكون القيمة الصافية المستلمة 0)
+  
     const isPaidOrder = event.type === 'order.paid'
     const isFreeOrder =
       event.type === 'order.created' && event.data?.amount === 0
