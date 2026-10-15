@@ -1,55 +1,22 @@
-import {
-  PackageIcon,
-  RefreshCcwIcon,
-  ShoppingBagIcon,
-  MessageSquareIcon,
-  HashIcon
-} from 'lucide-react'
-import PageError from '../components/PageError'
+import { PackageIcon, MessageSquareIcon, HashIcon } from 'lucide-react'
+
 import { useOrders } from '../hooks/useOrders'
 import { Link } from 'react-router'
 import OrderCard from '../components/OrderCard'
+import OrderNotFound from '../ui/errors/OrderNotFound'
+import OrderSkelton from '../ui/skeletons/OrderSkelton'
+import OrdersEmpty from '../ui/empty-status/OrdersEmpty'
+import SvgOrders from '../ui/svg/SvgOrders'
 
 const OrdersPage = () => {
   const { error, isLoading, orders, staff } = useOrders()
 
   if (isLoading) {
-    return (
-      <div className='container mx-auto max-w-5xl px-4 py-12'>
-        <div className='flex flex-col gap-3 mb-10 animate-pulse'>
-          <div className='h-10 bg-base-300 rounded-lg w-48'></div>
-          <div className='h-5 bg-base-300 rounded-lg w-96'></div>
-        </div>
-
-        <div className='grid gap-6'>
-          {[1, 2, 3].map(n => (
-            <div
-              key={n}
-              className='card bg-base-200 border border-base-300 h-32 w-full animate-pulse rounded-2xl'
-            ></div>
-          ))}
-        </div>
-      </div>
-    )
+    return <OrderSkelton />
   }
 
   if (error) {
-    return (
-      <div className='min-h-[60vh] flex items-center justify-center px-4'>
-        <PageError
-          message={'Could not load orders.'}
-          action={{
-            onClick: () => window.location.reload(),
-            label: (
-              <button className='btn btn-primary btn-md shadow-lg shadow-primary/20 gap-2 normal-case rounded-xl'>
-                <RefreshCcwIcon className='w-4 h-4 animate-spin-reverse' /> Try
-                Again
-              </button>
-            )
-          }}
-        />
-      </div>
-    )
+    return <OrderNotFound />
   }
 
   return (
@@ -72,21 +39,7 @@ const OrdersPage = () => {
       </header>
 
       {orders.length === 0 ? (
-        <div className='card bg-base-200/50 border border-base-300/80 rounded-2xl p-10 text-center max-w-md mx-auto shadow-xl backdrop-blur-sm'>
-          <div className='w-16 h-16 bg-base-300/50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-500'>
-            <ShoppingBagIcon className='w-8 h-8' />
-          </div>
-          <h3 className='text-xl font-bold mb-2'>No orders found</h3>
-          <p className='text-sm text-slate-400 mb-6'>
-            Looks like you haven't placed any orders yet.
-          </p>
-          <Link
-            to={'/'}
-            className='btn btn-primary btn-block normal-case rounded-xl shadow-lg shadow-primary/20'
-          >
-            Browse the Shop
-          </Link>
-        </div>
+        <OrdersEmpty />
       ) : (
         <ul className='grid gap-4 list-none p-0 m-0'>
           {orders.map(o => {
@@ -147,22 +100,7 @@ const OrdersPage = () => {
                         {o.status}
                       </span>
 
-                      <div className='text-slate-500 group-hover:text-primary group-hover:translate-x-1 transition-all duration-300 hidden md:block'>
-                        <svg
-                          xmlns='http://w3.org'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth={2.5}
-                          stroke='currentColor'
-                          className='w-5 h-5'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M8.25 4.5l7.5 7.5-7.5 7.5'
-                          />
-                        </svg>
-                      </div>
+                      <SvgOrders />
                     </div>
                   </div>
                 </Link>

@@ -2,6 +2,7 @@ import { ShoppingCartIcon } from 'lucide-react'
 import { getOptimizedImageUrl } from '../lib/imageKitUrl'
 import { useCartStore } from '../store/cart'
 import { formatPrice } from '../utils/format'
+import { Link } from 'react-router'
 
 const ProductCard = ({ product }) => {
   const addToCart = useCartStore(state => state.addToCart)
@@ -9,7 +10,8 @@ const ProductCard = ({ product }) => {
   const optimizedImageSrc = getOptimizedImageUrl(product.imageUrl, 500)
 
   return (
-    <div
+    <Link
+      to={`/products/${product.slug}`}
       data-theme='night'
       className='card bg-base-200 border border-base-300 shadow-xl overflow-hidden group hover:border-primary/40 transition-all duration-300 flex flex-col h-full'
     >
@@ -27,7 +29,7 @@ const ProductCard = ({ product }) => {
           {product.category}
         </span>
       </figure>
-    
+
       <div className='card-body p-5 flex flex-col justify-between grow space-y-4'>
         <div className='space-y-2'>
           <h2 className='card-title text-xl font-bold tracking-tight text-base-content line-clamp-1 group-hover:text-primary transition-colors'>
@@ -59,7 +61,7 @@ const ProductCard = ({ product }) => {
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 

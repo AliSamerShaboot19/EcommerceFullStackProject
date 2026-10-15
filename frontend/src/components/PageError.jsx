@@ -21,7 +21,7 @@ export default function PageError ({ message, action }) {
         </p>
 
         {action && (
-          <div className='card-actions mt-6 w-full'>
+          <div className='card-actions mt-6 ml-30 w-full'>
             <button
               onClick={action.onClick}
               className='btn btn-primary btn-block sm:btn-wide font-bold shadow-lg shadow-primary/20 transition-all duration-300 normal-case'

@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage'
 import CartPages from './pages/CartPages'
 import OrdersPage from './pages/OrdersPage'
 import CheckoutReturnPage from './pages/CheckoutReturnPage'
+import ProductDetails from './pages/ProductDetails'
 
 function App () {
   const { isLoaded, isSignedIn } = useAuth()
@@ -20,6 +21,7 @@ function App () {
           element={isSignedIn ? <OrdersPage /> : <Navigate to={'/'} replace />}
         />
         <Route path='/checkout/return' element={<CheckoutReturnPage />} />
+        <Route path='/products/:slug' element={<ProductDetails />} />
       </Routes>
     </Layout>
   )

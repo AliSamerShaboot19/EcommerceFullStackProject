@@ -4,15 +4,16 @@ import {
   ShoppingBagIcon,
   Trash2Icon,
   ArrowRightIcon,
-  RefreshCcwIcon,
   LogInIcon
 } from 'lucide-react'
 import useCart from '../hooks/useCart'
-import PageError from '../components/PageError'
 import { getOptimizedImageUrl } from '../lib/imageKitUrl'
 import { Link } from 'react-router'
 import { formatPrice } from '../utils/format'
 import { Show, SignInButton } from '@clerk/react'
+import CartSkeleton from '../ui/skeletons/CartSkeleton'
+import CartError from '../ui/errors/CartError'
+import CartEmpty from '../ui/empty-status/CartEmpty'
 
 const CartPages = () => {
   const {
@@ -28,7 +29,7 @@ const CartPages = () => {
   } = useCart()
 
   return (
-    <div className='min-h-screen bg-base-300 text-base-content py-12 px-4 sm:px-6 lg:px-8 font-sans'>
+    <div className='min-h-screen  text-base-content py-12 px-4 sm:px-6 lg:px-8 font-sans'>
       <div className='max-w-5xl mx-auto'>
         <div className='flex items-center gap-3 mb-8 border-b border-base-100 pb-5'>
           <ShoppingBagIcon className='w-8 h-8 text-primary' />
@@ -41,59 +42,11 @@ const CartPages = () => {
         </div>
 
         {items.length === 0 ? (
-          <div className='card bg-base-200 shadow-xl border border-base-100 py-16 text-center'>
-            <div className='card-body items-center'>
-              <ShoppingBagIcon className='w-16 h-16 text-base-content/30 mb-4' />
-              <h2 className='card-title text-2xl text-neutral-content font-bold mb-2'>
-                Your cart is empty
-              </h2>
-              <p className='text-base-content/60 max-w-sm mb-6'>
-                Looks like you haven't added anything to your cart yet.
-              </p>
-              <div className='card-actions'>
-                <Link
-                  to='/'
-                  className='btn btn-primary btn-wide shadow-lg shadow-primary/20'
-                >
-                  Browse Products
-                </Link>
-              </div>
-            </div>
-          </div>
+          <CartEmpty />
         ) : productsLoading ? (
-          <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-            <div className='lg:col-span-2 space-y-4'>
-              {[1, 2, 3].map(n => (
-                <div
-                  key={n}
-                  className='flex gap-4 p-4 bg-base-200 rounded-2xl animate-pulse'
-                >
-                  <div className='w-24 h-24 bg-base-100 rounded-xl'></div>
-                  <div className='flex-1 space-y-3 py-1'>
-                    <div className='h-4 bg-base-100 rounded w-3/4'></div>
-                    <div className='h-4 bg-base-100 rounded w-1/4'></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className='bg-base-200 h-48 rounded-2xl animate-pulse'></div>
-          </div>
+          <CartSkeleton />
         ) : productsError ? (
-          <div className='alert alert-error shadow-lg max-w-2xl mx-auto rounded-2xl'>
-            <PageError
-              message={
-                'We encountered an issue while loading the your production catalog.'
-              }
-              action={{
-                onClick: () => window.location.reload(),
-                label: (
-                  <span className='flex items-center gap-2'>
-                    <RefreshCcwIcon className='w-4 h-4' /> Try Again
-                  </span>
-                )
-              }}
-            />
-          </div>
+          <CartError />
         ) : (
           <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 items-start'>
             <ul className='lg:col-span-2 space-y-4 list-none p-0 m-0'>

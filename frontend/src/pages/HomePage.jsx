@@ -1,9 +1,10 @@
-import { LayersIcon } from 'lucide-react'
 import Features from '../components/Features'
 import HomeHero from '../components/HomeHero'
-import PageError from '../components/PageError'
 import ProductCard from '../components/ProductCard'
 import useHome from '../hooks/useHome'
+import ProductsSkelten from '../ui/skeletons/ProductsSkelten'
+import ProductsCatalogNotFounds from '../ui/errors/ProductsCatalogNotFounds'
+import ProdcutHomeEmpy from '../ui/empty-status/ProdcutHomeEmpy'
 
 const HomePage = () => {
   const {
@@ -80,50 +81,11 @@ const HomePage = () => {
         </div>
 
         {isLoadingProducts ? (
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6'>
-            {[1, 2, 3, 4].map(i => (
-              <div
-                key={i}
-                className='bg-base-200 border border-base-300 rounded-2xl shadow-md p-5 space-y-4 animate-pulse h-104 flex flex-col justify-between'
-              >
-                <div className='bg-base-300 w-full h-56 rounded-xl'></div>
-                <div className='space-y-3 grow pt-4'>
-                  <div className='bg-base-300 h-5 w-3/4 rounded-md'></div>
-                  <div className='bg-base-300 h-4 w-5/6 rounded-md'></div>
-                </div>
-                <div className='flex justify-between items-center pt-4 border-t border-base-300/40'>
-                  <div className='bg-base-300 h-6 w-20 rounded-md'></div>
-                  <div className='bg-base-300 h-10 w-28 rounded-xl'></div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <ProductsSkelten />
         ) : error ? (
-          <div className='card bg-error/10 border border-error/20 p-8 text-center rounded-2xl max-w-xl mx-auto my-12'>
-            <PageError
-              message={
-                'We encountered an issue while loading the production catalog.'
-              }
-              action={{
-                onClick: () => window.location.reload(),
-                label: 'Try Again'
-              }}
-            />
-          </div>
+          <ProductsCatalogNotFounds />
         ) : products.length === 0 ? (
-          <div className='card bg-base-200 border border-base-300 p-16 text-center rounded-2xl max-w-xl mx-auto my-12 space-y-4'>
-            <div className='mx-auto p-4 bg-base-300/60 rounded-full w-fit text-base-content/40'>
-              <LayersIcon className='w-8 h-8' />
-            </div>
-            <p className='text-lg text-base-content/70 font-medium'>
-              No products found in{' '}
-              <span className='text-primary font-bold'>"{category}"</span>
-            </p>
-            <p className='text-xs text-base-content/40 max-w-xs mx-auto font-light'>
-              We couldn't locate any active items under this group right now.
-              Try browsing another catalog.
-            </p>
-          </div>
+          <ProdcutHomeEmpy category={category}/>
         ) : (
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6'>
             {products.map(product => (
