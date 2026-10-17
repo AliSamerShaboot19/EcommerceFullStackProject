@@ -10,7 +10,7 @@ function useCart() {
   const items = useCartStore((s) => s.products);
   const setQuantity = useCartStore((s) => s.setQuantity);
   const removeFromCart = useCartStore((s) => s.removeFromCart);
-
+  const clearCart = useCartStore((s) => s.clear);
 
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
@@ -71,6 +71,7 @@ function useCart() {
     total,
     checkout,
     checkoutLoading,
+    clearCart,
   };
 }
 

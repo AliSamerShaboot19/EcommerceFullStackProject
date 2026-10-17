@@ -1,15 +1,15 @@
 import { ShoppingBagIcon, ChevronRightIcon, ImageOffIcon } from 'lucide-react'
 
-import useCart from '../hooks/useCart'
 import { useProductPage } from '../hooks/useProductPage'
 import { Link } from 'react-router'
 import { getOptimizedImageUrl } from '../lib/imageKitUrl'
 import { formatPrice } from '../utils/format'
 import ProductDetailsSkeleton from '../ui/skeletons/ProductDetailsSkeleton'
 import ProductNotFound from '../ui/errors/ProductNotFound'
+import { useCartStore } from '../store/cart'
 
 const ProductDetails = () => {
-  const addItem = useCart(s => s.addToCart)
+  const addToCart = useCartStore(s => s.addToCart)
   const { product, isLoading, error } = useProductPage()
 
   if (isLoading) {
@@ -20,9 +20,11 @@ const ProductDetails = () => {
     return <ProductNotFound />
   }
 
+  
+
   const p = product
   const category = p.category ?? 'General'
-
+  console.log(p)
   return (
     <div className='min-h-screen  text-base-content antialiased p-4 sm:p-8 flex flex-col items-center selection:bg-primary selection:text-primary-content'>
       <div className='max-w-5xl w-full space-y-6'>
@@ -96,7 +98,7 @@ const ProductDetails = () => {
 
             <div className='pt-4'>
               <button
-                onClick={() => addItem(p)}
+                onClick={() => addToCart(p.id, 1)}
                 className='btn btn-primary btn-block sm:btn-lg font-bold shadow-lg shadow-primary/10 gap-2 group text-base'
               >
                 <ShoppingBagIcon className='w-5 h-5 transition-transform group-hover:-translate-y-0.5' />

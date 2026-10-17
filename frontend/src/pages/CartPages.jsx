@@ -25,7 +25,8 @@ const CartPages = () => {
     productsLoading,
     removeFromCart,
     setQuantity,
-    total
+    total,
+    clearCart
   } = useCart()
 
   return (
@@ -39,6 +40,12 @@ const CartPages = () => {
           <span className='badge badge-primary badge-md ml-2 font-semibold'>
             {items.length} {items.length === 1 ? 'item' : 'items'}
           </span>
+          <button
+            className='btn btn-primary  shadow-lg shadow-primary/10 text-white font-bold group'
+            onClick={() => clearCart()}
+          >
+            Clear Cart
+          </button>
         </div>
 
         {items.length === 0 ? (
