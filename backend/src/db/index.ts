@@ -3,10 +3,8 @@ import { drizzle } from 'drizzle-orm/node-postgres'
 import pg from 'pg'
 import dns from 'node:dns'
 
-// 🚀 مهم جداً: IPv4 أولاً لتجنب IPv6 blackhole
 dns.setDefaultResultOrder('ipv4first')
 
-// 🎯 التحقق من وجود DATABASE_URL قبل المتابعة
 if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL is not set in environment variables')
 }

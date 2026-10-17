@@ -31,7 +31,7 @@ export async function createCheckout (
       return
     }
 
-    console.log(parseData)
+
 
     if (!env.POLAR_ACCESS_TOKEN) {
       res.status(503).json({ error: 'Payments are not configured.' })

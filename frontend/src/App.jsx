@@ -7,6 +7,9 @@ import CartPages from './pages/CartPages'
 import OrdersPage from './pages/OrdersPage'
 import CheckoutReturnPage from './pages/CheckoutReturnPage'
 import ProductDetails from './pages/ProductDetails'
+import OrderDetails from './pages/OrderDetails'
+import OrderChat from './pages/OrderChat'
+import OrderSummery from './pages/OrderSummery'
 
 function App () {
   const { isLoaded, isSignedIn } = useAuth()
@@ -22,6 +25,11 @@ function App () {
         />
         <Route path='/checkout/return' element={<CheckoutReturnPage />} />
         <Route path='/products/:slug' element={<ProductDetails />} />
+
+        <Route path='/orders/:id' element={<OrderDetails />}>
+          <Route index element={<OrderSummery/>}/>
+          <Route path='chat' element={<OrderChat/>}/>
+        </Route>
       </Routes>
     </Layout>
   )
