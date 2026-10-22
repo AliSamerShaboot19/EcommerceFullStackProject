@@ -187,9 +187,8 @@ export async function deleteAdminProduct (
     await deleteImageKitAssest(env, exciting.imageKitField)
     await db.delete(products).where(eq(products.id, id))
 
-    res.status(204).end()
+    res.status(204).json({ res: 'ok' })
   } catch (error) {
     next(error)
   }
 }
-

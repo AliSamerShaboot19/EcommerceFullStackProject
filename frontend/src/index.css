@@ -2,5 +2,8 @@
 /* @plugin "daisyui"; */
 
 @plugin "daisyui" {
-    themes: sunset  --default;
+    themes: sunset --default;
 }
+
+
+@import "stream-chat-react/dist/css/index.css" layer(stream);

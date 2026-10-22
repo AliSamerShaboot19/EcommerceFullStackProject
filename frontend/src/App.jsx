@@ -10,6 +10,7 @@ import ProductDetails from './pages/ProductDetails'
 import OrderDetails from './pages/OrderDetails'
 import OrderChat from './pages/OrderChat'
 import OrderSummery from './pages/OrderSummery'
+import AdminPage from './pages/AdminPage'
 
 function App () {
   const { isLoaded, isSignedIn } = useAuth()
@@ -26,9 +27,14 @@ function App () {
         <Route path='/checkout/return' element={<CheckoutReturnPage />} />
         <Route path='/products/:slug' element={<ProductDetails />} />
 
+        <Route
+          path='/admin'
+          element={isSignedIn ? <AdminPage /> : <Navigate to={'/'} replace />}
+        />
+
         <Route path='/orders/:id' element={<OrderDetails />}>
-          <Route index element={<OrderSummery/>}/>
-          <Route path='chat' element={<OrderChat/>}/>
+          <Route index element={<OrderSummery />} />
+          <Route path='chat' element={<OrderChat />} />
         </Route>
       </Routes>
     </Layout>

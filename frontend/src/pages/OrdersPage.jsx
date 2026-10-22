@@ -54,8 +54,6 @@ const OrdersPage = () => {
                 ? `${totalUnits} ${totalUnits === 1 ? 'item' : 'items'}`
                 : `${lineCount} unique products • ${totalUnits} total items`
 
-            console.log(items)
-
             return (
               <li key={o.id}>
                 <Link

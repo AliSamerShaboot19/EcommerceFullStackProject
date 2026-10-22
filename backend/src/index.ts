@@ -34,7 +34,12 @@ app.use('/webhooks/polar', rawjson, (req, res) => {
 })
 
 app.use(express.json())
-app.use(cors())
+app.use(
+  cors({
+    origin: ['http://localhost:5173', 'https://imagekit.io'],
+    credentials: true
+  })
+)
 app.use(clerkMiddleware())
 app.use(sentryClerkUserMiddleware)
 

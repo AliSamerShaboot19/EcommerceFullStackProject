@@ -6,7 +6,6 @@ import {
   CheckCircleIcon,
   PackageIcon,
   MessageSquareIcon,
-  VideoIcon,
   ExternalLinkIcon
 } from 'lucide-react'
 
@@ -45,10 +44,6 @@ const CheckoutReturnPage = () => {
             .<span>It fully supports text features via</span>
             <span className='inline-flex items-center gap-1 text-secondary font-bold bg-secondary/10 px-2 py-0.5 rounded-md select-none'>
               <MessageSquareIcon className='w-4 h-4' /> support chat
-            </span>
-            <span>as well as live sessions with a</span>
-            <span className='inline-flex items-center gap-1 text-accent font-bold bg-accent/10 px-2 py-0.5 rounded-md select-none'>
-              <VideoIcon className='w-4 h-4' /> video URL invite
             </span>
             .
           </div>

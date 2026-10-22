@@ -40,9 +40,8 @@ export async function apiFetch(path, opts = {}) {
     throw networkError;
   }
 
-  const data = await res.json();
-
-  
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : {};
 
   Sentry.addBreadcrumb({
     category: "api",
@@ -53,7 +52,7 @@ export async function apiFetch(path, opts = {}) {
 
   if (!res.ok) {
     const errorMsg = data?.error || res.statusText || "Request failed";
-    console.error('API error:', res.status, errorMsg, data); 
+    console.error("API error:", res.status, errorMsg, data);
     const httpError = new Error(errorMsg);
 
     if (res.status >= 500) {
