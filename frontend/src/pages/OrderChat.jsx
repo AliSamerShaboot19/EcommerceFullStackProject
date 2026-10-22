@@ -11,7 +11,7 @@ import {
 } from 'stream-chat-react'
 import ErrorOrderChat from '../ui/errors/ErrorOrderChat'
 import ErrorPaid from '../ui/errors/ErrorPaid'
-import { ErrorChannelClient } from '../ui/errors/ErrorChannelClient'
+import ErrorChannelClient from '../ui/errors/ErrorChannelClient'
 
 const OrderChat = () => {
   const { error, channel, client, paid } = useChat()
@@ -25,7 +25,7 @@ const OrderChat = () => {
   }
 
   if (!client || !channel) {
-    return <ErrorChannelClient />
+    return <ErrorChannelClient/>
   }
 
   return (
