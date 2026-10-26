@@ -6,8 +6,13 @@ import { Link } from 'react-router'
 
 const ProductCard = ({ product }) => {
   const addToCart = useCartStore(state => state.addToCart)
-
   const optimizedImageSrc = getOptimizedImageUrl(product.imageUrl, 500)
+
+  const handleAddToCart = e => {
+    e.preventDefault()
+    e.stopPropagation()
+    addToCart(product.id, 1)
+  }
 
   return (
     <Link
@@ -24,7 +29,6 @@ const ProductCard = ({ product }) => {
           height='224'
           className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
         />
-
         <span className='absolute top-3 left-3 badge badge-primary font-medium tracking-wide shadow-md'>
           {product.category}
         </span>
@@ -35,7 +39,6 @@ const ProductCard = ({ product }) => {
           <h2 className='card-title text-xl font-bold tracking-tight text-base-content line-clamp-1 group-hover:text-primary transition-colors'>
             {product.name}
           </h2>
-
           <p className='text-sm text-base-content/70 line-clamp-2 leading-relaxed font-light'>
             {product.description}
           </p>
@@ -46,14 +49,12 @@ const ProductCard = ({ product }) => {
             <span className='text-xs text-base-content/50 font-medium tracking-wider uppercase'>
               Price
             </span>
-
             <span className='text-2xl font-black text-secondary font-mono'>
               {formatPrice(product.price, product.currency)}
             </span>
           </div>
-
           <button
-            onClick={() => addToCart(product.id, 1)}
+            onClick={handleAddToCart}
             className='btn btn-primary shadow-lg shadow-primary/20 gap-2 group/btn text-white'
           >
             <ShoppingCartIcon className='w-5 h-5 group-hover/btn:-translate-y-0.5 transition-transform' />
