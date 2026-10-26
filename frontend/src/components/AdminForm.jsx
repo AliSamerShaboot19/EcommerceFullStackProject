@@ -17,7 +17,7 @@ export function AdminProductForm ({
   const [name, setName] = useState(initial?.name ?? '')
   const [category, setCategory] = useState(initial?.category ?? 'General')
   const [description, setDescription] = useState(initial?.description ?? '')
-  const [price, setPriceCents] = useState(
+  const [priceCents, setPriceCents] = useState(
     initial ? String(initial.price / 100) : ''
   )
   const [currency, setCurrency] = useState(initial?.currency ?? 'usd')
@@ -31,7 +31,7 @@ export function AdminProductForm ({
 
   function handleSubmit (e) {
     e.preventDefault()
-    const dollars = Number.parseFloat(price)
+    const dollars = Number.parseFloat(priceCents)
     if (Number.isNaN(dollars) || dollars <= 0) return
 
     const body = {
@@ -39,7 +39,7 @@ export function AdminProductForm ({
       name: name.trim(),
       category: category.trim() || 'General',
       description: description.trim(),
-      price: Math.round(dollars * 100),
+      priceCents: Math.round(dollars * 100),
       currency: currency.trim().toLowerCase(),
       imageUrl: imageUrl.trim() || null,
       imageKitField: imageKitField.trim() || null,
@@ -53,7 +53,7 @@ export function AdminProductForm ({
         patch.category = body.category
       if (body.description !== initial.description)
         patch.description = body.description
-      if (body.price !== initial.price) patch.price = body.price
+      if (body.priceCents !== initial.priceCents) patch.priceCents = body.priceCents
       if (body.currency !== initial.currency) patch.currency = body.currency
       if ((body.imageUrl ?? '') !== (initial.imageUrl ?? ''))
         patch.imageUrl = body.imageUrl
@@ -183,7 +183,7 @@ export function AdminProductForm ({
             type='number'
             step='0.01'
             min='0.01'
-            value={price}
+            value={priceCents}
             onChange={e => setPriceCents(e.target.value)}
             required
             placeholder='0.00'

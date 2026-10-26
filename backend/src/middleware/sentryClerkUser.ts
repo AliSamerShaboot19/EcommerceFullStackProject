@@ -7,3 +7,6 @@ export const sentryClerkUserMiddleware: RequestHandler = (req, _res, next) => {
   Sentry.getIsolationScope().setUser(userId ? { id: userId } : null)
   next()
 }
+
+
+
